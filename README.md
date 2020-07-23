@@ -35,5 +35,6 @@ Light reading NEEDS to be as type as "unisgned int" as BH1750 reads from 0 to 65
 
 ## Possible TO-DOs ##
 -Another magnetic-switch for the "door-up" position
+
 -Max time for closure in case door-switch fails, in order to avoid infinite motor movement.
 
