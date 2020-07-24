@@ -13,10 +13,9 @@ int doorStatus = -1; //1:open ,0:moving , -1:closed
 
 unsigned int avgLight; //unsigned int to extend positive range
 
-int dayLevel = 400; //lux threashold to open door
-int nightLevel = 120; //lux threashold to close door
+int dayLevel = 200; //lux threashold to open door
+int nightLevel = 90; //lux threashold to close door
 float timeUp = 15; //seconds motors pull up door
-
 int intApertura = (int) (timeUp * 1000.0) ;
 bool switchStatus; // it's a pull_up --> 0:closed / 1:open
 
@@ -59,7 +58,7 @@ void openDoor(){
  digitalWrite(motorPinUp, LOW);
  digitalWrite(motorPinDown, LOW);
  doorStatus= 1; //door is up
- delay(2000); //stay here to avoid reading light again too soon
+ delay(10000); //stay here to avoid reading light again too soon
 }
 
 void closeDoor(){
@@ -78,12 +77,11 @@ void closeDoor(){
  digitalWrite(motorPinUp, LOW);
  digitalWrite(motorPinDown, LOW);
  doorStatus= -1; //door is down
- delay(20000); //stay here to avoid reading light again too soon
+ delay(10000); //stay here to avoid reading light again too soon
 }
 
 void loop() {
   digitalWrite(ledPin, HIGH);
-  
   switchStatus = digitalRead(doorSwitch);
   Serial.print("doorSwitch @ main-loop: ");Serial.println(switchStatus);
   
