@@ -4,7 +4,7 @@ BH1750 lightMeter;
 
 const int ledPin =  LED_BUILTIN;// the number of the LED pin
 int ledState = LOW;             // ledState used to set the LED
-int read_delay = 2000;
+
 
 int motorPinUp = 2;
 int motorPinDown = 4;
@@ -15,7 +15,10 @@ unsigned int avgLight; //unsigned int to extend positive range
 
 int dayLevel = 200; //lux threashold to open door
 int nightLevel = 90; //lux threashold to close door
-float timeUp = 15; //seconds motors pull up door
+float timeUp = 15.5; //seconds motors pull up door
+
+int read_delay = 2500;
+
 int intApertura = (int) (timeUp * 1000.0) ;
 bool switchStatus; // it's a pull_up --> 0:closed / 1:open
 
@@ -42,7 +45,7 @@ void setup() {
 
 void readLight () {
   unsigned int lux_a = lightMeter.readLightLevel(true);
-  delay(2500);
+  delay(read_delay);
   unsigned int lux_b = lightMeter.readLightLevel(true);
   if (lux_a >=0 and lux_b >= 0) {
       avgLight = (lux_a+lux_b)/2;
