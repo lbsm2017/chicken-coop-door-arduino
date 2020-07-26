@@ -61,7 +61,7 @@ void openDoor(){
  digitalWrite(motorPinUp, LOW);
  digitalWrite(motorPinDown, LOW);
  doorStatus= 1; //door is up
- delay(10000); //stay here to avoid reading light again too soon
+ delay(5000); //stay here to avoid reading light again too soon
 }
 
 void closeDoor(){
@@ -80,16 +80,16 @@ void closeDoor(){
  digitalWrite(motorPinUp, LOW);
  digitalWrite(motorPinDown, LOW);
  doorStatus= -1; //door is down
- delay(10000); //stay here to avoid reading light again too soon
+ delay(5000); //stay here to avoid reading light again too soon
 }
 
 void loop() {
   //digitalWrite(ledPin, HIGH);
   switchStatus = digitalRead(doorSwitch);
   //Serial.print("doorSwitch @ main-loop: ");Serial.println(switchStatus);
-  Serial.print("Avg Lux: ");Serial.println(avgLight);
   
   readLight();
+  Serial.print("Avg Lux: ");Serial.println(avgLight);
 
   if (avgLight>dayLevel and doorStatus==-1 and switchStatus==0) {
     Serial.println("Day! >> openDoor !");
@@ -104,8 +104,9 @@ void loop() {
   Serial.println("--> SLEEP 8sec");
   LowPower.idle(SLEEP_8S, ADC_OFF, TIMER2_OFF, TIMER1_OFF, TIMER0_OFF,
                  SPI_OFF, USART0_OFF, TWI_OFF);
-  Serial.println("Arduino wakeup");
   delay(1000);
+  Serial.println("Arduino wakeup");
+  
   //digitalWrite(ledPin, LOW);
   //delay(2000);
 }
