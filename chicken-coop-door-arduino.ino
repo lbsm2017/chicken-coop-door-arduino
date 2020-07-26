@@ -1,10 +1,10 @@
 #include <Wire.h>
 #include <BH1750.h>
+#include <LowPower.h>
 BH1750 lightMeter;
 
-const int ledPin =  LED_BUILTIN;// the number of the LED pin
-int ledState = LOW;             // ledState used to set the LED
-
+//const int ledPin =  LED_BUILTIN;// the number of the LED pin
+//int ledState = LOW;             // ledState used to set the LED
 
 int motorPinUp = 2;
 int motorPinDown = 4;
@@ -15,7 +15,7 @@ unsigned int avgLight; //unsigned int to extend positive range
 
 int dayLevel = 200; //lux threashold to open door
 int nightLevel = 90; //lux threashold to close door
-float timeUp = 15.5; //seconds motors pull up door
+float timeUp = 20; //seconds motors pull up door
 
 int read_delay = 2500;
 
@@ -29,7 +29,7 @@ void setup() {
   pinMode(doorSwitch, INPUT_PULLUP);
   pinMode(motorPinUp, OUTPUT);
   pinMode(motorPinDown, OUTPUT);
-  pinMode(ledPin, OUTPUT);
+  //pinMode(ledPin, OUTPUT);
   Serial.begin(9600); //
   Wire.begin();
   lightMeter.begin();
@@ -50,7 +50,7 @@ void readLight () {
   if (lux_a >=0 and lux_b >= 0) {
       avgLight = (lux_a+lux_b)/2;
     }
-  Serial.println("Avg Lux: " + avgLight);
+  
 }
 
 void openDoor(){
@@ -84,9 +84,10 @@ void closeDoor(){
 }
 
 void loop() {
-  digitalWrite(ledPin, HIGH);
+  //digitalWrite(ledPin, HIGH);
   switchStatus = digitalRead(doorSwitch);
-  Serial.print("doorSwitch @ main-loop: ");Serial.println(switchStatus);
+  //Serial.print("doorSwitch @ main-loop: ");Serial.println(switchStatus);
+  Serial.print("Avg Lux: ");Serial.println(avgLight);
   
   readLight();
 
@@ -99,7 +100,12 @@ void loop() {
     Serial.println("Night! >> closeDoor !");
     closeDoor();
   }
-  
-  digitalWrite(ledPin, LOW);
-  delay(2000);
+
+  Serial.println("--> SLEEP 8sec");
+  LowPower.idle(SLEEP_8S, ADC_OFF, TIMER2_OFF, TIMER1_OFF, TIMER0_OFF,
+                 SPI_OFF, USART0_OFF, TWI_OFF);
+  Serial.println("Arduino wakeup");
+  delay(1000);
+  //digitalWrite(ledPin, LOW);
+  //delay(2000);
 }
